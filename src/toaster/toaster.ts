@@ -73,7 +73,7 @@ export interface StoredToast extends Toast {
 /**
  * Options to configure a {@link Toaster} instance.
  */
-export interface ToasterOptions extends StoredToastOptions {
+export interface ToasterOptions extends ToastOptions {
   /**
    * Should the `ToastContainer` be globally mounted or not.
    * It means that it is automatically mounted to the DOM.
@@ -148,8 +148,7 @@ const toasterKey = Symbol('toaster') as InjectionKey<Toaster>
 const defaultOptions: ToasterOptions = {
   duration: 3000,
   globalMount: true,
-  position: 'bottom',
-  type: 'info'
+  position: 'bottom'
 }
 
 /**
