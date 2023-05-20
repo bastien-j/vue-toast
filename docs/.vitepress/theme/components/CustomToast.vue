@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { StoredToast } from '../toaster'
+import { StoredToast } from '../../../../src/toaster'
 
 const props = defineProps<{
   toast: StoredToast
@@ -20,35 +20,32 @@ const classes = computed(() => {
 </script>
 
 <template>
-  <div v-if="!toast.options.component" class="toast" :class="classes">
-    {{ toast.message }}
+  <div class="custom-toast" :class="classes">
+    <div class="c-t-header">{{ toast.options.type }}</div>
+    <div class="c-t-body">{{ toast.message }}</div>
   </div>
-  <component v-else :is="toast.options.component" :toast="toast" />
 </template>
 
 <style scoped lang="scss">
-.toast {
+.custom-toast {
   align-self: center;
   border-radius: 8px;
   color: hsl(0, 0%, 100%);
-  padding: 16px;
   background-color: hsl(0, 0%, 30%);
   pointer-events: initial;
+  overflow: hidden;
 
-  &.toast--error {
-    background-color: hsl(354, 70%, 54%);
+  .c-t-header {
+    padding: 4px;
+    background-color: hsl(0, 0%, 15%);
   }
+  .c-t-body {
+    padding: 8px;
+  }
+
   &.toast--info {
-    background-color: hsl(211, 100%, 50%);
+    color: hsl(214, 100%, 64%);
   }
-  &.toast--success {
-    background-color: hsl(134, 61%, 41%);
-  }
-  &.toast--warn {
-    background-color: hsl(45, 100%, 51%);
-    color: hsl(0, 0%, 30%);
-  }
-
   &.toast--left {
     align-self: flex-start;
   }

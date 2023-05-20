@@ -1,4 +1,4 @@
-import { App, h, inject, InjectionKey, Ref, ref, render } from 'vue'
+import { App, Component, h, inject, InjectionKey, Ref, render, shallowRef, triggerRef } from 'vue'
 
 import ToastContainer from './components/ToastContainer.vue'
 
@@ -23,6 +23,13 @@ export type ToastType = 'error' | 'info' | 'success' | 'warn'
  */
 export interface ToastOptions {
   /**
+   * Custom Vue component to use instead of the default one.
+   *
+   * This component will receive a {@link StoredToast} as a `toast` prop.
+   */
+  component?: Component | string
+
+  /**
    * Toast duration in milliseconds. Defaults to `3000` (3 seconds).
    */
   duration: number
@@ -34,7 +41,7 @@ export interface ToastOptions {
 }
 
 /**
- * @internal
+ * Options of {@link StoredToast}
  */
 interface StoredToastOptions extends ToastOptions {
   /**
@@ -44,7 +51,7 @@ interface StoredToastOptions extends ToastOptions {
 }
 
 /**
- * @internal
+ * Toast object.
  */
 interface Toast {
   /**
@@ -59,7 +66,7 @@ interface Toast {
 }
 
 /**
- * @internal
+ * Toast object that can be used in custom Toast components.
  */
 export interface StoredToast extends Toast {
   options: StoredToastOptions
@@ -169,16 +176,19 @@ export function createToaster(options?: Partial<ToasterOptions>): Toaster {
       transitionKey: (Math.random() + 1).toString(36).substring(7)
     }
     toaster.toasts.value.push(toast)
+    triggerRef(toaster.toasts)
     setTimeout(() => {
       const i = toaster.toasts.value.indexOf(toast)
-      if (i >= 0) toaster.toasts.value.splice(i, 1)
+      if (i < 0) return
+      toaster.toasts.value.splice(i, 1)
+      triggerRef(toaster.toasts)
     }, opts.duration)
   }
 
   const toaster: Toaster = {
     options: { ...defaultOptions, ...options },
 
-    toasts: ref([]),
+    toasts: shallowRef([]),
 
     error: function (message: string, options?: ToastOptions): void {
       show(message, 'error', options)

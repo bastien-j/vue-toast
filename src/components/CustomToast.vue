@@ -20,34 +20,19 @@ const classes = computed(() => {
 </script>
 
 <template>
-  <div v-if="!toast.options.component" class="toast" :class="classes">
+  <div class="custom-toast" :class="classes">
+    {{ toast.options.type }} - 
     {{ toast.message }}
   </div>
-  <component v-else :is="toast.options.component" :toast="toast" />
 </template>
 
 <style scoped lang="scss">
-.toast {
+.custom-toast {
   align-self: center;
-  border-radius: 8px;
-  color: hsl(0, 0%, 100%);
-  padding: 16px;
-  background-color: hsl(0, 0%, 30%);
+  border-radius: 5px;
+  padding: 8px;
+  background-color: hsl(0, 0%, 100%);
   pointer-events: initial;
-
-  &.toast--error {
-    background-color: hsl(354, 70%, 54%);
-  }
-  &.toast--info {
-    background-color: hsl(211, 100%, 50%);
-  }
-  &.toast--success {
-    background-color: hsl(134, 61%, 41%);
-  }
-  &.toast--warn {
-    background-color: hsl(45, 100%, 51%);
-    color: hsl(0, 0%, 30%);
-  }
 
   &.toast--left {
     align-self: flex-start;

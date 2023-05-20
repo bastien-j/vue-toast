@@ -16,8 +16,8 @@ hero:
 features:
   - title: Positioning
     details: Position your toasts wherever you like
-  - title: Typing
-    details: Choose between 4 differents toast types
+  - title: Customization
+    details: Choose between 4 defaults styles or use your own component
   - title: Duration
     details: Customize the duration of your toasts
 ---

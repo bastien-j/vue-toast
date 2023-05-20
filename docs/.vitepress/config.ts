@@ -43,7 +43,8 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
         { text: 'Global vs. Local', link: '/guide/conf-global-vs-local' },
         { text: 'Position', link: '/guide/conf-position' },
         { text: 'Type', link: '/guide/conf-type' },
-        { text: 'Duration', link: '/guide/conf-duration' }
+        { text: 'Duration', link: '/guide/conf-duration' },
+        { text: 'Custom component', link: '/guide/conf-custom-toast' }
       ]
     }
   ]

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+import CustomToast from './components/CustomToast.vue';
 import NestedComponent from './components/NestedComponent.vue'
 import { ToastOptions, ToastType, useToaster } from './toaster'
 
@@ -15,6 +16,10 @@ const options = ref<ToastOptions>({
 
 function trigger() {
   toaster[type.value](msg.value, options.value)
+}
+
+function triggerCustom() {
+  toaster[type.value](msg.value, {...options.value, component: CustomToast})
 }
 
 function triggerAll() {
@@ -87,6 +92,7 @@ function triggerAll() {
     </div>
     <div class="footer">
       <button @click="trigger">Launch!</button>
+      <button @click="triggerCustom">Launch custom!</button>
       <button @click="triggerAll">Launch all!</button>
     </div>
   </div>
@@ -151,6 +157,7 @@ function triggerAll() {
     display: flex;
     justify-content: space-evenly;
     padding: 16px;
+    gap: 16px;
 
     button {
       border: none;
