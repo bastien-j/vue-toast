@@ -201,14 +201,16 @@ export function createToaster(options?: Partial<ToasterOptions>): Toaster {
       app.config.globalProperties.$toaster = toaster
       app.provide(toasterKey, toaster)
 
-      if (!this.options.globalMount) return
-
-      if (document.querySelector('#toast-container')) return
-      const vNode = h(ToastContainer)
-      if (app && app._context) {
-        vNode.appContext = app._context
+      if (typeof window !== 'undefined') {
+        if (!this.options.globalMount) return
+  
+        if (document.querySelector('#toast-container')) return
+        const vNode = h(ToastContainer)
+        if (app && app._context) {
+          vNode.appContext = app._context
+        }
+        render(vNode, document.body)
       }
-      render(vNode, document.body)
     }
   }
 
