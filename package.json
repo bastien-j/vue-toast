@@ -8,9 +8,12 @@
     "toast",
     "notification"
   ],
-  "homepage": "https://github.com/bastien-j/vue-toaster",
+  "homepage": "https://bastien-j.github.io/vue-toaster",
   "bugs": {
     "url": "https://github.com/bastien-j/vue-toaster/issues"
+  },
+  "repository": {
+    "url": "https://github.com/bastien-j/vue-toaster"
   },
   "license": "MIT",
   "type": "module",
