@@ -44,7 +44,9 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
         { text: 'Position', link: '/guide/conf-position' },
         { text: 'Type', link: '/guide/conf-type' },
         { text: 'Duration', link: '/guide/conf-duration' },
-        { text: 'Custom component', link: '/guide/conf-custom-toast' }
+        { text: 'Custom component', link: '/guide/conf-custom-toast' },
+        { text: 'Close on click', link: '/guide/conf-close-on-click' },
+        { text: 'Pause on hover', link: '/guide/conf-pause-on-hover' }
       ]
     }
   ]

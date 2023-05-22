@@ -72,7 +72,7 @@ onMounted(() => {
   align-self: center;
   background-color: hsl(0, 0%, 30%);
   border-radius: 8px;
-  box-shadow: 3px 3px 10px hsl(0, 0%, 75%);
+  box-shadow: 3px 3px 10px hsl(0, 0%, 50%);
   color: hsl(0, 0%, 100%);
 
   .toast-content {
@@ -109,7 +109,6 @@ onMounted(() => {
     --progress: 50%;
 
     background-color: hsl(0, 0%, 100%);
-    box-shadow: 3px 3px 10px hsl(0, 0%, 75%);
     bottom: 0;
     height: 4px;
     left: calc(0% - var(--progress));
