@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { useToaster } from '../toaster'
+import { StoredToast, useToaster } from '../toaster'
 import ToastComponent from './ToastComponent.vue'
 
 const toaster = useToaster()
@@ -12,18 +12,23 @@ const top = computed(() =>
 const bottom = computed(() =>
   toaster.toasts.value.filter((t) => t.options.position?.includes('bottom')).reverse()
 )
+
+function close(toast: StoredToast) {
+  if (!toast.options.closeOnClick) return
+  toaster.removeToast(toast)
+}
 </script>
 
 <template>
   <div id="toast-container">
     <div class="toast-container__top">
       <TransitionGroup name="list-top">
-        <ToastComponent v-for="toast in top" :key="toast.transitionKey" :toast="toast" />
+        <ToastComponent v-for="toast in top" :key="toast.transitionKey" :toast="toast" @click="close(toast)" />
       </TransitionGroup>
     </div>
     <div class="toast-container__bottom">
       <TransitionGroup name="list-bottom">
-        <ToastComponent v-for="toast in bottom" :key="toast.transitionKey" :toast="toast" />
+        <ToastComponent v-for="toast in bottom" :key="toast.transitionKey" :toast="toast" @click="close(toast)" />
       </TransitionGroup>
     </div>
   </div>

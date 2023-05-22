@@ -9,9 +9,11 @@ const toaster = useToaster()
 
 const msg = ref('Trigger me!')
 const type = ref<ToastType>('info')
-const options = ref<ToastOptions>({
+const options = ref<Partial<ToastOptions>>({
+  closeOnClick: true,
+  duration: 3000,
+  pauseOnHover: true,
   position: 'bottom',
-  duration: 3000
 })
 
 function trigger() {
@@ -37,6 +39,10 @@ function triggerAll() {
       <div class="form-input">
         <strong><label for="message">Message</label></strong>
         <input id="message" type="text" v-model="msg" />
+      </div>
+      <div class="form-input">
+        <strong><label for="duration">Duration (ms)</label></strong>
+        <input id="duration" type="number" v-model="options.duration" />
       </div>
       <div class="form-control">
         <strong>Position</strong>
@@ -86,6 +92,17 @@ function triggerAll() {
             <label for="warn">warn</label>
             <input type="radio" id="warn" v-model="type" value="warn" />
           </div>
+        </div>
+      </div>
+      <div class="form-control">
+        <strong>Misc.</strong>
+        <div class="form-checkbox">
+          <label for="closeOnClick">Close on click</label>
+          <input type="checkbox" v-model="options.closeOnClick" id="closeOnClick" />
+        </div>
+        <div class="form-checkbox">
+          <label for="pauseOnHover">Pause on hover</label>
+          <input type="checkbox" v-model="options.pauseOnHover" id="pauseOnHover" />
         </div>
       </div>
       <NestedComponent />
@@ -138,6 +155,12 @@ function triggerAll() {
         padding: 8px 12px;
         font-size: 16px;
       }
+    }
+
+    .form-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .form-radio {

@@ -24,6 +24,11 @@ export type ToastType = 'error' | 'info' | 'success' | 'warn'
  */
 export interface ToastOptions {
   /**
+   * Close the toast when it is clicked. Defaults to `true`.
+   */
+  closeOnClick: boolean
+
+  /**
    * Custom Vue component to use instead of the default one.
    *
    * This component will receive a {@link StoredToast} as a `toast` prop.
@@ -105,7 +110,7 @@ export interface ToasterOptions extends ToastOptions {
  */
 export interface Toaster {
   /**
-   * Original options object used to create the Toaster
+   * Original options object used to create the Toaster.
    */
   readonly options: ToasterOptions
 
@@ -115,7 +120,14 @@ export interface Toaster {
   readonly toasts: Ref<StoredToast[]>
 
   /**
-   * Display an error (red) toast.
+   * Remove a stored toast. Should not be called manually by the user.
+   *
+   * @param toast - Stored toast to remove
+   */
+  removeToast(toast: StoredToast): void
+
+  /**
+   * Display an error (red) toast
    *
    * @param message - Message to display
    * @param options - Toast options
@@ -164,6 +176,7 @@ const toasterKey = Symbol('toaster') as InjectionKey<Toaster>
  * @internal
  */
 const defaultOptions: ToasterOptions = {
+  closeOnClick: true,
   duration: 3000,
   globalMount: true,
   pauseOnHover: true,
@@ -204,6 +217,8 @@ export function createToaster(options?: Partial<ToasterOptions>): Toaster {
 
     toasts: shallowRef([]),
 
+    removeToast,
+
     error: function (message: string, options?: ToastOptions): void {
       show(message, 'error', options)
     },
@@ -227,7 +242,7 @@ export function createToaster(options?: Partial<ToasterOptions>): Toaster {
 
       if (typeof window !== 'undefined') {
         if (!this.options.globalMount) return
-  
+
         if (document.querySelector('#toast-container')) return
         const vNode = h(ToastContainer)
         if (app && app._context) {
