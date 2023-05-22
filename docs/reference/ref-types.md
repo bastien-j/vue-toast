@@ -6,7 +6,7 @@ import { useToaster } from '../../src/toaster'
 const toaster = useToaster()
 
 function trigger(type) {
-  toaster[type]('This is an error toast')
+  toaster[type](`${type} toast`)
 }
 </script>
 
