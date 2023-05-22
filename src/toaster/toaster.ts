@@ -1,6 +1,7 @@
 import { App, Component, h, inject, InjectionKey, Ref, render, shallowRef, triggerRef } from 'vue'
 
 import ToastContainer from './components/ToastContainer.vue'
+import Timer from './timer'
 
 /**
  * Available toast positions.
@@ -33,6 +34,11 @@ export interface ToastOptions {
    * Toast duration in milliseconds. Defaults to `3000` (3 seconds).
    */
   duration: number
+
+  /**
+   * Pause delay on toast hover. Defaults to `true`.
+   */
+  pauseOnHover: boolean
 
   /**
    * Toast position. Defaults to `bottom`.
@@ -70,6 +76,11 @@ interface Toast {
  */
 export interface StoredToast extends Toast {
   options: StoredToastOptions
+
+  /**
+   * Internal timer of the toast.
+   */
+  timer: Timer
 
   /**
    * Toast key. Used internally for Vue transitions.
@@ -155,6 +166,7 @@ const toasterKey = Symbol('toaster') as InjectionKey<Toaster>
 const defaultOptions: ToasterOptions = {
   duration: 3000,
   globalMount: true,
+  pauseOnHover: true,
   position: 'bottom'
 }
 
@@ -164,6 +176,13 @@ const defaultOptions: ToasterOptions = {
  * @param options - {@link ToasterOptions}
  */
 export function createToaster(options?: Partial<ToasterOptions>): Toaster {
+  function removeToast(toast: StoredToast) {
+    const i = toaster.toasts.value.indexOf(toast)
+    if (i < 0) return
+    toaster.toasts.value.splice(i, 1)
+    triggerRef(toaster.toasts)
+  }
+
   function show(message: string, type: ToastType, options?: ToastOptions): void {
     const opts: StoredToastOptions = {
       ...toaster.options,
@@ -173,16 +192,11 @@ export function createToaster(options?: Partial<ToasterOptions>): Toaster {
     const toast: StoredToast = {
       message,
       options: opts,
+      timer: new Timer(() => removeToast(toast), opts.duration),
       transitionKey: (Math.random() + 1).toString(36).substring(7)
     }
     toaster.toasts.value.push(toast)
     triggerRef(toaster.toasts)
-    setTimeout(() => {
-      const i = toaster.toasts.value.indexOf(toast)
-      if (i < 0) return
-      toaster.toasts.value.splice(i, 1)
-      triggerRef(toaster.toasts)
-    }, opts.duration)
   }
 
   const toaster: Toaster = {
