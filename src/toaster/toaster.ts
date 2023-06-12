@@ -161,7 +161,6 @@ export interface Toaster {
   /**
    * Called automatically by `app.use(toaster)`. Should not be called manually by the user.
    *
-   * @internal
    * @param app - Application that uses the toaster
    */
   install(app: App): void
