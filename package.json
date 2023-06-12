@@ -24,6 +24,7 @@
   "module": "./dist/vue-toaster.js",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/vue-toaster.js",
       "require": "./dist/vue-toaster.umd.cjs"
     },
