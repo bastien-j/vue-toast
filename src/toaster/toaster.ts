@@ -41,6 +41,11 @@ export interface ToastOptions {
   duration: number
 
   /**
+   * Hide the progress bar. Defaults to `false`.
+   */
+  hideProgress: boolean
+
+  /**
    * Pause delay on toast hover. Defaults to `true`.
    */
   pauseOnHover: boolean
@@ -178,6 +183,7 @@ const defaultOptions: ToasterOptions = {
   closeOnClick: true,
   duration: 3000,
   globalMount: true,
+  hideProgress: false,
   pauseOnHover: true,
   position: 'bottom'
 }

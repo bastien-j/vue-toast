@@ -12,6 +12,7 @@ const type = ref<ToastType>('info')
 const options = ref<Partial<ToastOptions>>({
   closeOnClick: true,
   duration: 3000,
+  hideProgress: false,
   pauseOnHover: true,
   position: 'bottom',
 })
@@ -99,6 +100,10 @@ function triggerAll() {
         <div class="form-checkbox">
           <label for="closeOnClick">Close on click</label>
           <input type="checkbox" v-model="options.closeOnClick" id="closeOnClick" />
+        </div>
+        <div class="form-checkbox">
+          <label for="hideProgress">Hide progress</label>
+          <input type="checkbox" v-model="options.hideProgress" id="hideProgress" />
         </div>
         <div class="form-checkbox">
           <label for="pauseOnHover">Pause on hover</label>

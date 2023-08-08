@@ -27,6 +27,15 @@ Used to set the toasts duration (in milliseconds).
 
 Refer to [Duration](../guide/conf-duration) to learn more.
 
+## hideProgress
+
+- Type: `boolean`
+- Default: `false`
+
+Used to hide the progress bar.
+
+Refer to [Duration](../guide/conf-duration#progress-bar) to learn more.
+
 ## pauseOnHover
 
 - Type: `boolean`

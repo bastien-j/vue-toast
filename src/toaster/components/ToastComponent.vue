@@ -55,6 +55,7 @@ onMounted(() => {
     <div class="toast-content">
       {{ toast.message }}
       <div
+        v-if="!toast.options.hideProgress"
         class="progress-bar"
         :class="{ resumed }"
         :style="{

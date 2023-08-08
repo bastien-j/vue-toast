@@ -40,6 +40,12 @@ function trigger() {
     { duration: 1000 }
   )
 }
+function triggerNoProgress() {
+  toaster.info(
+    'Without progress bar!',
+    { hideProgress: true }
+  )
+}
 </script>
 :::raw
 <ClientOnly>
@@ -47,6 +53,37 @@ function trigger() {
 </ClientOnly>
 :::
 
+:::tip
+This option [can be set globally](./conf-global-vs-local#global-configuration) when using the `createToaster` method.
+:::
+
+## Progress bar
+
+To hide the progress bar, set the `hideProgress` option:
+
+```vue
+<script setup>
+import { useToaster } from '@bastien-j/vue-toaster'
+
+const toaster = useToaster()
+
+function trigger() {
+  toaster.info(
+    'Without progress bar!',
+    { hideProgress: true } // [!code focus]
+  )
+}
+</script>
+
+<template>
+  <button @click="trigger()">Trigger toast without progress bar</button>
+</template>
+```
+:::raw
+<ClientOnly>
+  <button class="trigger-button" @click="triggerNoProgress()">Trigger toast without progress bar</button>
+</ClientOnly>
+:::
 :::tip
 This option [can be set globally](./conf-global-vs-local#global-configuration) when using the `createToaster` method.
 :::
