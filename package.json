@@ -1,6 +1,6 @@
 {
   "name": "@bastien-j/vue-toaster",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "A simple toast notification plugin for Vue 3",
   "keywords": [
     "vue",
