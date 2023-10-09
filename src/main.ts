@@ -1,8 +1,6 @@
-import '../packages/toaster/dist/style.css'
-
 import { createApp } from 'vue'
 
-import { createToaster } from '../packages/toaster'
+import { createToaster } from '../packages/toaster/src/index'
 import App from './App.vue'
 
 const app = createApp(App)

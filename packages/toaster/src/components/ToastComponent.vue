@@ -1,11 +1,24 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 
-import { StoredToast } from '../toaster'
+import { StoredToast, useToaster } from '../toaster'
+import CloseIcon from './icons/CloseIcon.vue'
+import ErrorIcon from './icons/ErrorIcon.vue'
+import InfoIcon from './icons/InfoIcon.vue'
+import SuccessIcon from './icons/SuccessIcon.vue'
+import WarningIcon from './icons/WarningIcon.vue'
+
+const CP_SIZE = 32
+const CP_THICKNESS = 3
+
+const toaster = useToaster()
 
 const props = defineProps<{
   toast: StoredToast
 }>()
+
+const resumed = ref(false)
+const progress = ref(0)
 
 const classes = computed(() => {
   const options = props.toast.options
@@ -15,11 +28,9 @@ const classes = computed(() => {
     if (['bottom-left', 'top-left'].includes(options.position)) c.push('toast--left')
     if (['bottom-right', 'top-right'].includes(options.position)) c.push('toast--right')
   }
+if (options.closeOnClick) c.push('toast--closable')
   return c
 })
-
-const resumed = ref(false)
-const progress = ref(0)
 
 function pause() {
   if (!props.toast.options.pauseOnHover) return
@@ -53,16 +64,50 @@ onMounted(() => {
     @pointerleave="resume()"
   >
     <div class="toast-content">
+      <div class="toast__icon">
+        <ErrorIcon v-if="toast.options.type === 'error'" />
+        <SuccessIcon v-else-if="toast.options.type === 'success'" />
+        <WarningIcon v-else-if="toast.options.type === 'warn'" />
+        <InfoIcon v-else />
+      </div>
       {{ toast.message }}
-      <div
-        v-if="!toast.options.hideProgress"
-        class="progress-bar"
-        :class="{ resumed }"
+      <button
+        v-if="!toast.options.hideCloseButton"
+        class="toast__close-btn"
         :style="{
-          '--progress': `${progress}%`,
-          '--progress-duration': `${toast.timer.getRemaing() / 1000}s`
+          height: `${CP_SIZE}px`,
+          width: `${CP_SIZE}px`
         }"
-      ></div>
+        @click="toaster.removeToast(toast)"
+      >
+        <CloseIcon class="toast__close-btn__icon" />
+        <svg v-if="!toast.options.hideProgress" height="100%" width="100%" :viewBox="`0 0 ${CP_SIZE} ${CP_SIZE}`">
+          <circle
+            class="toast__circular-progress__track"
+            :r="(CP_SIZE - CP_THICKNESS) / 2"
+            :cx="CP_SIZE / 2"
+            :cy="CP_SIZE / 2"
+            fill="transparent"
+            stroke="#ffffff80"
+            :stroke-width="CP_THICKNESS"
+          ></circle>
+          <circle
+            class="toast__circular-progress"
+            :class="{ resumed }"
+            :style="{
+              '--cp-radius': (CP_SIZE - CP_THICKNESS) / 2,
+              '--cp-progress': progress,
+              '--cp-progress-duration': `${toast.timer.getRemaing() / 1000}s`
+            }"
+            :r="(CP_SIZE - CP_THICKNESS) / 2"
+            :cx="CP_SIZE / 2"
+            :cy="CP_SIZE / 2"
+            fill="transparent"
+            stroke="#ffffff"
+            :stroke-width="CP_THICKNESS"
+          ></circle>
+        </svg>
+      </button>
     </div>
   </div>
   <component v-else :is="toast.options.component" :toast="toast" />
@@ -71,31 +116,72 @@ onMounted(() => {
 <style scoped lang="scss">
 .toast {
   align-self: center;
-  background-color: hsl(0, 0%, 30%);
-  border-radius: 8px;
-  box-shadow: 3px 3px 10px hsl(0, 0%, 50%);
+  border-radius: 16px;
+  box-shadow: 4px 4px 10px hsla(0, 0%, 0%, 25%);
   color: hsl(0, 0%, 100%);
 
   .toast-content {
+    align-items: center;
     border-radius: inherit;
+    display: flex;
+    gap: 12px;
+    height: 56px;
     overflow: hidden;
-    padding: 16px;
+    padding: 0px 16px;
     pointer-events: initial;
     position: relative;
+
+    .toast__close-btn {
+      background: none;
+      border: none;
+      color: inherit;
+      cursor: pointer;
+      display: inline-grid;
+      padding: 0;
+      place-content: center;
+      position: relative;
+      transition: background;
+
+      .toast__close-btn__icon {
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translate3d(-50%, -50%, 0);
+      }
+
+      .toast__circular-progress {
+        --cp-progress: 50;
+        --cp-progress-duration: 3s;
+        --cp-radius: 14;
+        --cp-dasharray: calc(2 * 3.14 * var(--cp-radius));
+        --cp-dashoffset: calc(var(--cp-dasharray) * ((100 - var(--cp-progress)) / 100));
+
+        stroke-dasharray: var(--cp-dasharray);
+        stroke-dashoffset: var(--cp-dashoffset);
+        transition: var(--cp-progress-duration) stroke-dashoffset linear;
+
+        &.resumed {
+          stroke-dashoffset: 0;
+        }
+      }
+    }
+  }
+
+  &.toast--closable {
+    cursor: pointer;
   }
 
   &.toast--error {
-    background-color: hsl(354, 70%, 54%);
+    background-color: hsl(0, 75%, 42%);
   }
   &.toast--info {
-    background-color: hsl(211, 100%, 50%);
+    background-color: hsl(211, 71%, 49%);
   }
   &.toast--success {
-    background-color: hsl(134, 61%, 41%);
+    background-color: hsl(134, 53%, 44%);
   }
   &.toast--warn {
-    background-color: hsl(45, 100%, 51%);
-    color: hsl(0, 0%, 30%);
+    background-color: hsl(29, 83%, 45%);
   }
 
   &.toast--left {
@@ -103,23 +189,6 @@ onMounted(() => {
   }
   &.toast--right {
     align-self: flex-end;
-  }
-
-  .progress-bar {
-    --progress-duration: 3s;
-    --progress: 50%;
-
-    background-color: hsl(0, 0%, 100%);
-    bottom: 0;
-    height: 4px;
-    left: calc(0% - var(--progress));
-    position: absolute;
-    transition: var(--progress-duration) left linear;
-    width: 100%;
-
-    &.resumed {
-      left: -100%;
-    }
   }
 }
 </style>

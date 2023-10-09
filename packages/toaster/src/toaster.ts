@@ -41,6 +41,11 @@ export interface ToastOptions {
   duration: number
 
   /**
+   * Hide the close button. Defaults to `false`
+   */
+  hideCloseButton: boolean
+
+  /**
    * Hide the progress bar. Defaults to `false`.
    */
   hideProgress: boolean
@@ -183,6 +188,7 @@ const defaultOptions: ToasterOptions = {
   closeOnClick: true,
   duration: 3000,
   globalMount: true,
+  hideCloseButton: false,
   hideProgress: false,
   pauseOnHover: true,
   position: 'bottom'

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-import { ToastOptions, ToastType, useToaster } from '../packages/toaster'
+import { ToastOptions, ToastType, useToaster } from '../packages/toaster/src/index'
 import CustomToast from './components/CustomToast.vue';
 import NestedComponent from './components/NestedComponent.vue'
 
@@ -12,6 +12,7 @@ const type = ref<ToastType>('info')
 const options = ref<Partial<ToastOptions>>({
   closeOnClick: true,
   duration: 3000,
+  hideCloseButton: false,
   hideProgress: false,
   pauseOnHover: true,
   position: 'bottom',
@@ -26,10 +27,10 @@ function triggerCustom() {
 }
 
 function triggerAll() {
-  toaster.error(msg.value, options.value)
-  toaster.info(msg.value, options.value)
-  toaster.success(msg.value, options.value)
-  toaster.warn(msg.value, options.value)
+  toaster.error('Error toast', options.value)
+  toaster.info('Info toast', options.value)
+  toaster.success('Success toast', options.value)
+  toaster.warn('Warn toast', options.value)
 }
 </script>
 
@@ -100,6 +101,10 @@ function triggerAll() {
         <div class="form-checkbox">
           <label for="closeOnClick">Close on click</label>
           <input type="checkbox" v-model="options.closeOnClick" id="closeOnClick" />
+        </div>
+        <div class="form-checkbox">
+          <label for="hideCloseButton">Hide close button</label>
+          <input type="checkbox" v-model="options.hideCloseButton" id="hideCloseButton" />
         </div>
         <div class="form-checkbox">
           <label for="hideProgress">Hide progress</label>
