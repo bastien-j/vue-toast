@@ -7,7 +7,6 @@ import CustomToast from './components/CustomToast.vue'
 export default {
   extends: DefaultTheme,
   enhanceApp({ app }: EnhanceAppContext) {
-    console.log('allo')
     app.component('CustomToast', CustomToast)
     app.use(createToaster())
   }
