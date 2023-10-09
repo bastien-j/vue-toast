@@ -1,5 +1,5 @@
 import { DefaultTheme, defineConfig } from 'vitepress'
-import pkg from '../../package.json'
+import pkg from '../../toaster/package.json'
 
 export default defineConfig({
   lang: 'en-US',

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+import { ToastOptions, ToastType, useToaster } from '../packages/toaster'
 import CustomToast from './components/CustomToast.vue';
 import NestedComponent from './components/NestedComponent.vue'
-import { ToastOptions, ToastType, useToaster } from './toaster'
 
 const toaster = useToaster()
 

@@ -27,7 +27,7 @@ function pause() {
   timer.pause()
   const remaining = timer.getRemaing()
   const delay = timer.getDelay()
-  progress.value = 100 - Math.round(remaining / delay * 100)
+  progress.value = 100 - Math.round((remaining / delay) * 100)
   resumed.value = false
 }
 
@@ -45,11 +45,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <div 
-    v-if="!toast.options.component" 
-    class="toast" 
-    :class="classes" 
-    @pointerenter="pause()" 
+  <div
+    v-if="!toast.options.component"
+    class="toast"
+    :class="classes"
+    @pointerenter="pause()"
     @pointerleave="resume()"
   >
     <div class="toast-content">
