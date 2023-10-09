@@ -27,6 +27,15 @@ Used to set the toasts duration (in milliseconds).
 
 Refer to [Duration](../guide/conf-duration) to learn more.
 
+## hideCloseButton
+
+- Type: `boolean`
+- Default: `false`
+
+Used to hide the close button.
+
+Refer to [Close on click](../guide/conf-close-on-click#hiding-the-close-button-hideclosebutton) to learn more.
+
 ## hideProgress
 
 - Type: `boolean`
