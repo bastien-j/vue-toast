@@ -27,7 +27,7 @@ function trigger() {
 ```
 
 <script setup>
-import { useToaster } from '../../src/toaster'
+import { useToaster } from '@bastien-j/vue-toaster'
 
 const toaster = useToaster()
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { StoredToast } from '../../../../src/toaster'
+import { StoredToast } from '@bastien-j/vue-toaster'
 
 const props = defineProps<{
   toast: StoredToast

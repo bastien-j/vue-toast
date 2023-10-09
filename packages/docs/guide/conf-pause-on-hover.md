@@ -1,14 +1,14 @@
-# Close on click
+# Pause on hover
 
-The toasts can be closed by clicking them.
+The toasts delay can be paused by hovering them.
 
 :::tip
-By default, `closeOnClick` option is `enabled`.
+By default, `pauseOnHover` option is `enabled`.
 :::
 
-## Enabling / disabling `closeOnClick`
+## Enabling / disabling `pauseOnHover`
 
-To enable / disable `closeOnClick`, simply set the `closeOnClick` option:
+To enable / disable `pauseOnHover`, simply set the `pauseOnHover` option:
 
 ```vue
 <script setup>
@@ -18,8 +18,8 @@ const toaster = useToaster()
 
 function trigger() {
   toaster.info(
-    'closeOnClick disabled!',
-    { closeOnClick: false } // [!code focus]
+    'pauseOnHover disabled!',
+    { pauseOnHover: false } // [!code focus]
   )
 }
 </script>
@@ -30,14 +30,14 @@ function trigger() {
 ```
 
 <script setup>
-import { useToaster } from '../../src/toaster'
+import { useToaster } from '@bastien-j/vue-toaster'
 
 const toaster = useToaster()
 
 function trigger() {
   toaster.info(
-    'closeOnClick disabled!',
-    { closeOnClick: false }
+    'pauseOnHover disabled!',
+    { pauseOnHover: false }
   )
 }
 </script>

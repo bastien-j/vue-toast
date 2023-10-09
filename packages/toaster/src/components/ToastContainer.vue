@@ -23,12 +23,22 @@ function close(toast: StoredToast) {
   <div id="toast-container">
     <div class="toast-container__top">
       <TransitionGroup name="list-top">
-        <ToastComponent v-for="toast in top" :key="toast.transitionKey" :toast="toast" @click="close(toast)" />
+        <ToastComponent
+          v-for="toast in top"
+          :key="toast.transitionKey"
+          :toast="toast"
+          @click="close(toast)"
+        />
       </TransitionGroup>
     </div>
     <div class="toast-container__bottom">
       <TransitionGroup name="list-bottom">
-        <ToastComponent v-for="toast in bottom" :key="toast.transitionKey" :toast="toast" @click="close(toast)" />
+        <ToastComponent
+          v-for="toast in bottom"
+          :key="toast.transitionKey"
+          :toast="toast"
+          @click="close(toast)"
+        />
       </TransitionGroup>
     </div>
   </div>
